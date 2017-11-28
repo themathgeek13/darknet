@@ -68,15 +68,6 @@ void reset_network_state(network *net, int b)
 {
     int i;
     for (i = 0; i < net->n; ++i) {
-        #ifdef GPU
-        layer l = net->layers[i];
-        if(l.state_gpu){
-            fill_gpu(l.outputs, 0, l.state_gpu + l.outputs*b, 1);
-        }
-        if(l.h_gpu){
-            fill_gpu(l.outputs, 0, l.h_gpu + l.outputs*b, 1);
-        }
-        #endif
     }
 }
 
@@ -374,21 +365,8 @@ int resize_network(network *net, int w, int h)
     free(net->truth);
     net->input = calloc(net->inputs*net->batch, sizeof(float));
     net->truth = calloc(net->truths*net->batch, sizeof(float));
-#ifdef GPU
-    if(gpu_index >= 0){
-        cuda_free(net->input_gpu);
-        cuda_free(net->truth_gpu);
-        net->input_gpu = cuda_make_array(net->input, net->inputs*net->batch);
-        net->truth_gpu = cuda_make_array(net->truth, net->truths*net->batch);
-        net->workspace = cuda_make_array(0, (workspace_size-1)/sizeof(float)+1);
-    }else {
-        free(net->workspace);
-        net->workspace = calloc(1, workspace_size);
-    }
-#else
     free(net->workspace);
     net->workspace = calloc(1, workspace_size);
-#endif
     //fprintf(stderr, " Done!\n");
     return 0;
 }
@@ -409,9 +387,6 @@ layer get_network_detection_layer(network *net)
 image get_network_image_layer(network *net, int i)
 {
     layer l = net->layers[i];
-#ifdef GPU
-    //cuda_pull_array(l.output_gpu, l.output, l.outputs);
-#endif
     if (l.out_w && l.out_h && l.out_c){
         return float_to_image(l.out_w, l.out_h, l.out_c, l.output);
     }

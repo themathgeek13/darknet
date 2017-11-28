@@ -985,6 +985,7 @@ void run_classifier(int argc, char **argv)
 
     char *gpu_list = find_char_arg(argc, argv, "-gpus", 0);
     int ngpus;
+    int gpu_index=0;
     int *gpus = read_intlist(gpu_list, &ngpus, gpu_index);
 
 

@@ -221,7 +221,7 @@ void run_regressor(int argc, char **argv)
             gpu_list = strchr(gpu_list, ',')+1;
         }
     } else {
-        gpu = gpu_index;
+        gpu = 0;
         gpus = &gpu;
         ngpus = 1;
     }

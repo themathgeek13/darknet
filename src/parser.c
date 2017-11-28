@@ -637,7 +637,7 @@ network *parse_network_cfg(char *filename)
     node *n = sections->front;
     if(!n) error("Config file has no sections");
     network *net = make_network(sections->size - 1);
-    net->gpu_index = gpu_index;
+    //net->gpu_index = gpu_index;
     size_params params;
 
     section *s = (section *)n->val;

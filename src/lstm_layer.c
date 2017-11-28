@@ -1,7 +1,6 @@
 #include "lstm_layer.h"
 #include "connected_layer.h"
 #include "utils.h"
-#include "cuda.h"
 #include "blas.h"
 #include "gemm.h"
 

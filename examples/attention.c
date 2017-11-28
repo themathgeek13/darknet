@@ -437,7 +437,7 @@ void run_attention(int argc, char **argv)
         fprintf(stderr, "usage: %s %s [train/test/valid] [cfg] [weights (optional)]\n", argv[0], argv[1]);
         return;
     }
-
+	int gpu_index=0;
     char *gpu_list = find_char_arg(argc, argv, "-gpus", 0);
     int ngpus;
     int *gpus = read_intlist(gpu_list, &ngpus, gpu_index);

@@ -1,5 +1,4 @@
 #include "reorg_layer.h"
-#include "cuda.h"
 #include "blas.h"
 
 #include <stdio.h>

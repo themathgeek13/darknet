@@ -4,27 +4,27 @@
 #include <stdio.h>
 #include <math.h>
 
-void gemm_bin(int M, int N, int K, float ALPHA, 
-        char  *A, int lda, 
-        float *B, int ldb,
-        float *C, int ldc)
-{
-    int i,j,k;
-    for(i = 0; i < M; ++i){
-        for(k = 0; k < K; ++k){
-            char A_PART = A[i*lda+k];
-            if(A_PART){
-                for(j = 0; j < N; ++j){
-                    C[i*ldc+j] += B[k*ldb+j];
-                }
-            } else {
-                for(j = 0; j < N; ++j){
-                    C[i*ldc+j] -= B[k*ldb+j];
-                }
-            }
-        }
-    }
-}
+/*
+DESCRIPTION OF THE CODE:
+
+GEMM is General Matrix to Matrix Multiplication
+it's part of BLAS: Basic Linear Algebra Subprograms
+
+variations of GEMM:
+C=alpha*op(A)*op(B)+beta*C
+where op(X) can be X or X_T (transpose)
+
+Since C always needs to be multiplied by beta, it is done before calling any of the gemm_xy ops.
+
+Flow:
+gemm -> gemm_cpu
+depending on transposed required or not, it will call one of the gemm_xy operations
+
+Useful Resource: https://petewarden.com/2015/04/20/why-gemm-is-at-the-heart-of-deep-learning/
+Useful paper: https://pdfs.semanticscholar.org/5eab/9be45fea293e2e7f0eb46f62f4ae0f39be26.pdf
+(A portable and high performance matrix operations library for CPUs, GPUs and beyond)
+
+*/
 
 float *random_matrix(int rows, int cols)
 {

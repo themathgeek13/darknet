@@ -51,12 +51,6 @@ static float get_pixel(image m, int x, int y, int c)
 static float get_pixel_extend(image m, int x, int y, int c)
 {
     if(x < 0 || x >= m.w || y < 0 || y >= m.h) return 0;
-    /*
-    if(x < 0) x = 0;
-    if(x >= m.w) x = m.w-1;
-    if(y < 0) y = 0;
-    if(y >= m.h) y = m.h-1;
-    */
     if(c < 0 || c >= m.c) return 0;
     return get_pixel(m, x, y, c);
 }
